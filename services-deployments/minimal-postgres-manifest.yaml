@@ -1,0 +1,17 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: acid-minimal-cluster
+spec:
+  teamId: "acid"
+  volume:
+    size: 1Gi
+  numberOfInstances: 1
+  users:
+    backend_user: []
+  databases:
+    courses_db: backend_user
+  preparedDatabases:
+    bar: {}
+  postgresql:
+    version: "15"

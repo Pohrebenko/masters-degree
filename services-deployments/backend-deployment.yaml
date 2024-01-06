@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: europe-west3-docker.pkg.dev/kpi-iate-course-picker/kpi-iate-course-picker-registry/backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          env:
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_NAME
+                  name: backend-configuration
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_PORT
+                  name: backend-configuration
+            - name: DB_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  key: DB_SERVICE
+                  name: backend-configuration
+            - name: FLASK_CONFIG
+              valueFrom:
+                configMapKeyRef:
+                  key: FLASK_CONFIG
+                  name: backend-configuration
+            - name: FLASK_ENV
+              valueFrom:
+                configMapKeyRef:
+                  key: FLASK_ENV
+                  name: backend-configuration
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: backend-user.acid-minimal-cluster.credentials.postgresql.acid.zalan.do
+                  key: password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: backend-user.acid-minimal-cluster.credentials.postgresql.acid.zalan.do
+                  key: username
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: course-picker-ip-v1
+spec:
+  defaultBackend:
+    service:
+      name: frontend
+      port:
+        number: 80

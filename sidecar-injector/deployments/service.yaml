@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sidecar-injector-v2
+  labels:
+    app: sidecar-injector-v2
+spec:
+  ports:
+    - port: 8443
+      targetPort: 8443
+  selector:
+    app: sidecar-injector-v2

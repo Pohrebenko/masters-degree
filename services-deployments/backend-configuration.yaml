@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configuration
+  labels:
+    app: backend
+data:
+  DB_NAME: courses_db
+  DB_PORT: "5432"
+  DB_SERVICE: acid-minimal-cluster
+  FLASK_CONFIG: development
+  FLASK_ENV: development

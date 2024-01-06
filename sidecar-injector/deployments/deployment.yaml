@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-injector-v2
+  labels:
+    app: sidecar-injector-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sidecar-injector-v2
+  template:
+    metadata:
+      labels:
+        app: sidecar-injector-v2
+    spec:
+      containers:
+        - name: sidecar-injector-v2
+          image: europe-west3-docker.pkg.dev/kpi-iate-course-picker/kpi-iate-course-picker-registry/sidecar-injector:latest
+          imagePullPolicy: Always
+          args:
+            - -certDir=/etc/webhook/certs
+            - -port=8443
+          volumeMounts:
+            - name: webhook-certs
+              mountPath: /etc/webhook/certs
+              readOnly: true
+      volumes:
+        - name: webhook-certs
+          secret:
+            secretName: webhook-certs
